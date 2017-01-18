@@ -9,3 +9,21 @@ TEST(NginxConfigParserTest, SimpleConfig) {
 
   EXPECT_TRUE(success);
 }
+
+class NginxStringConfigTest : public ::testing::Test {
+protected:
+	bool ParseString(const std::string config_string) {
+		std::stringstream config_stream(config_string);
+		return parser_.Parse(&config_stream, &out_config_);
+	}
+
+	NginxConfigParser parser_;
+	NginxConfig out_config_;
+};
+
+TEST_F(NginxStringConfigTest, UnbalancedConfig) {
+	EXPECT_FALSE(ParseString("server { listen 8080; "));
+	// TODO
+}
+
+
